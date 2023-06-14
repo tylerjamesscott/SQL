@@ -1,0 +1,54 @@
+--Create tables of movie stars, movies, and costars
+
+CREATE TABLE movie_stars (id INTEGER PRIMARY KEY, name TEXT);
+INSERT INTO movie_stars VALUES
+(1, "Hugh Grant"),
+(2, "Drew Barrymore"),
+(3, "Adam Sandler"),
+(4, "Tom Hanks"),
+(5, "Meryl Streep"),
+(6, "Rachel McAdams"),
+(7, "Robert Downey Jr"),
+(8, "Jason Segel");
+
+CREATE TABLE movies (id INTEGER PRIMARY KEY, actor_ID INTEGER, title TEXT);
+INSERT INTO movies VALUES
+(1, 1, "Music & Lyrics"),
+(2, 2, "Music & Lyrics"),
+(3, 2, "The Wedding Singer"),
+(4, 2, "50 First Dates"),
+(5, 2, "Blended"),
+(6, 3, "The Wedding Singer"),
+(7, 3, "50 First Dates"),
+(8, 3, "Blended"),
+(9, 4, "The Post"),
+(10, 5, "The Post"),
+(11, 5, "The Devil Wears Prada"),
+(12, 6, "Mean Girls"),
+(13, 6, "Dr. Strange"),
+(14, 7, "Iron Man"),
+(15, 7, "The Avengers"),
+(16, 8, "Forgetting Sarah Marshall");
+
+CREATE TABLE costars (id INTEGER PRIMARY KEY, movie_id INTEGER, actor1_id INTEGER, actor2_id INTEGER);
+INSERT INTO costars VALUES
+(1, 1, 1, 2),
+(2, 3, 2, 3),
+(3, 4, 2, 3),
+(4, 5, 2, 3),
+(5, 9, 4, 5);
+
+--Join tables to create a list of movie stars and the movies they are in
+
+SELECT ms.name AS actor_name, m.title AS movie_title
+FROM movie_stars ms
+JOIN movies m ON ms.id = m.actor_id
+ORDER BY movie_title;
+
+--Join tables to list movies co-starring actors from the movie star list
+
+SELECT ms.name AS costar_1, ms1.name AS costar_2, m.title AS movie_title
+FROM costars c
+JOIN movie_stars ms ON c.actor1_id = ms.id
+JOIN movie_stars ms1 ON c.actor2_id = ms1.id
+JOIN movies m ON c.movie_id = m.id;
